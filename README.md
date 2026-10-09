@@ -1,6 +1,7 @@
 # IAW
 ## Descargando e instalando Docker ##
 #Realizado por: Juanma Martin Delgado#
+
 ![Imagen 1](1.png)
 
 Lo primero será buscar en el navegador de google chrome el ejecutable de docker.exe para Windows en mi caso
