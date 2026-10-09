@@ -1,6 +1,6 @@
 # IAW
 ## Descargando e instalando Docker ##
-#Realizado por: Juanma Martin Delgado#
+# Realizado por: Juanma Martin Delgado #
 
 ![Imagen 1](1.png)
 
