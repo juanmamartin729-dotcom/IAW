@@ -31,26 +31,26 @@ Ya tan solo cuando hayamos creado la cuenta, iniciamos sesión, y nos aparecerá
 ## Descargando, inspeccionando y borrando imágenes en Docker ##
 # Realizado por: Juanma Martin Delgado #
 
-![Imagen fo1](1.png)
+![Imagen fo1](fo1.png)
 
 Lo primero será descargar la imagen de Ubuntu 20.04 con el comando docker pull
 
-![Imagen fo2](2.png)
+![Imagen fo2](fo2.png)
 
 Con este comando guardaremos los datos de la imagen en el archivo info.txt
 
-![Imagen fo3](3.png)
+![Imagen fo3](fo3.png)
 
 Vamos a crear un contenedor llamado modulo3 a partir de la imagen y a entrar en su terminal
 
-![Imagen fo4](4.png)
+![Imagen fo4](fo4.png)
 
 Si intentamos borrar la imagen no nos deja, ya que el contenedor modulo3 la sigue usando aunque esté parado
 
-![Imagen fo5](5.png)
+![Imagen fo5](fo5.png)
 
 Por eso borramos primero el contenedor modulo3 con docker rm
 
-![Imagen fo6](6.png)
+![Imagen fo6](fo6.png)
 
 Una vez borrado el contenedor, ya podemos borrar la imagen de Ubuntu 20.04 con docker rmi
