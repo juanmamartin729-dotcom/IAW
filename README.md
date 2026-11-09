@@ -49,6 +49,10 @@ Si intentamos borrar la imagen no nos deja, ya que el contenedor modulo3 la sigu
 
 ![Imagen fo5](fo5.png)
 
+![Imagen fo6](fo6.png)
+
+Una vez borrado el contenedor, ya podemos borrar la imagen de Ubuntu 20.04 con docker rmi
+
 # Práctica de redes en Docker
 
 **Juanma Martín Delgado · 2º GSI**
@@ -153,6 +157,4 @@ ping -c 3 172.18.0.2
 Ahora los 3 paquetes llegan, con 0 % de pérdida y un tiempo medio de 0,239 ms. Queda demostrado que un contenedor conectado a dos redes puede comunicarse con ambas.
 Por eso borramos primero el contenedor modulo3 con docker rm
 
-![Imagen fo6](fo6.png)
 
-Una vez borrado el contenedor, ya podemos borrar la imagen de Ubuntu 20.04 con docker rmi
