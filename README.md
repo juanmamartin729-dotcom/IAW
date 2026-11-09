@@ -49,6 +49,108 @@ Si intentamos borrar la imagen no nos deja, ya que el contenedor modulo3 la sigu
 
 ![Imagen fo5](fo5.png)
 
+# Práctica de redes en Docker
+
+**Juanma Martín Delgado · 2º GSI**
+
+## 1. Crear red1 (con configuración manual)
+
+La máscara 255.255.0.0 equivale a /16.
+
+### Crear red1
+```bash
+docker network create --driver bridge --subnet 172.28.0.0/16 --gateway 172.28.0.1 red1
+```
+Se crea una red bridge con subred y puerta de enlace fijadas a mano. Docker devuelve el ID de la red, lo que confirma que se ha creado.
+
+### Crear red2
+```bash
+docker network create --driver bridge red2
+```
+Aquí no se indica subred ni gateway, así que Docker los asigna automáticamente. Es la diferencia clave con red1.
+
+### Error en `docker network ls`
+```bash
+docker network ls
+```
+El comando falló porque Docker Desktop no estaba en ejecución. Al iniciar el demonio de Docker, los comandos volvieron a funcionar.
+
+### Inspección de red1
+```bash
+docker network inspect red1
+```
+Confirma la subred 172.28.0.0/16 y el gateway 172.28.0.1 configurados. Aún no tiene contenedores conectados (`"Containers": {}`).
+
+## 2. Inspección de red2 y creación del primer contenedor
+
+### Inspección de red2
+```bash
+docker network inspect red2
+```
+Docker eligió automáticamente la subred 172.18.0.0/16 y el gateway 172.18.0.1. Es la configuración por defecto, sin intervención del usuario.
+
+### Crear u1 en red1
+```bash
+docker run -dit --name u1 --hostname host1 --network red1 --ip 172.28.0.10 ubuntu:20.04
+```
+Se lanza un contenedor Ubuntu en segundo plano (`-dit`) con IP fija dentro de red1. Se le asigna el nombre `u1` y el hostname `host1`.
+
+## 3. Preparación de los contenedores
+
+### Acceso a u1 e instalación de ping
+```bash
+docker exec -it u1 bash
+apt update && apt install -y inetutils-ping
+```
+Se entra en la terminal del contenedor y se instala `ping`, que la imagen base no trae. Sin esta herramienta no se podrían hacer las pruebas de conectividad.
+
+### Crear u2 en red2
+```bash
+docker run -dit --name u2 --hostname host2 --network red2 ubuntu:20.04
+docker exec -it u2 bash
+```
+Se crea el segundo contenedor en red2, esta vez con IP automática. Después se accede a su terminal.
+
+### Instalación de ping en u2
+```bash
+apt update && apt install -y inetutils-ping
+```
+Se repite la instalación en el segundo contenedor para poder hacer ping desde ambos lados. Los dos quedan listos para las pruebas.
+
+### Comprobar la IP de u1
+```bash
+docker exec u1 hostname -i
+```
+Devuelve `172.28.0.10`, la IP fija asignada al crear el contenedor. Así se verifica que el parámetro `--ip` funcionó.
+
+## 4. Pruebas de conectividad
+
+### Inspección de redes de u1 y u2
+```bash
+docker inspect -f "{{json .NetworkSettings.Networks}}" u1
+docker inspect -f "{{json .NetworkSettings.Networks}}" u2
+```
+u1 aparece solo en red1 (172.28.0.10) y u2 solo en red2 (172.18.0.2). Cada contenedor está en una red distinta.
+
+### Ping sin conectividad
+```bash
+ping -c 3 host2
+ping -c 3 172.18.0.2
+```
+El nombre `host2` no se resuelve y el ping por IP pierde el 100 % de los paquetes. Las redes bridge de Docker están aisladas entre sí.
+
+### Conectar u1 a red2
+```bash
+docker network connect red2 u1
+```
+u1 pasa a tener una segunda interfaz, ahora también dentro de red2. Con esto comparte red con u2.
+
+### Ping con conectividad
+```bash
+docker exec -it u1 bash
+ping -c 3 172.18.0.2
+```
+Ahora los 3 paquetes llegan, con 0 % de pérdida y un tiempo medio de 0,239 ms. Queda demostrado que un contenedor conectado a dos redes puede comunicarse con ambas.
 Por eso borramos primero el contenedor modulo3 con docker rm
 
 ![Imagen fo6](fo6.png)
