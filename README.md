@@ -159,8 +159,7 @@ Por eso borramos primero el contenedor modulo3 con docker rm
 
 # Tarea Módulo 6: Construyendo mis propias imágenes Docker
 
-Práctica del Módulo 6 del 2º GSI sobre creación de imágenes Docker, primero a partir de un contenedor en ejecución (`docker commit`) y después a partir de un `Dockerfile` (`docker build`). Las imágenes se publican en Docker Hub.
-
+Práctica del Módulo 6 sobre creación de imágenes Docker
 **Autor:** Juanma Martín Delgado
 **Usuario de Docker Hub:** [juanmamd12](https://hub.docker.com/u/juanmamd12)
 
@@ -172,20 +171,6 @@ Práctica del Módulo 6 del 2º GSI sobre creación de imágenes Docker, primero
 2. [Tarea 6.2: Imagen a partir de un contenedor (`a62`)](#tarea-62-imagen-a-partir-de-un-contenedor-a62)
 3. [Tarea 6.3: Imagen a partir de un Dockerfile (`a63`)](#tarea-63-imagen-a-partir-de-un-dockerfile-a63)
 4. [Repositorios en Docker Hub](#repositorios-en-docker-hub)
-
----
-
-## Requisitos
-
-- Docker Desktop instalado en Windows
-- Cuenta en [Docker Hub](https://hub.docker.com)
-- Terminal (CMD o PowerShell)
-
-Antes de subir imágenes hay que autenticarse:
-
-```bash
-docker login
-```
 
 ---
 
