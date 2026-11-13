@@ -157,4 +157,143 @@ ping -c 3 172.18.0.2
 Ahora los 3 paquetes llegan, con 0 % de pérdida y un tiempo medio de 0,239 ms. Queda demostrado que un contenedor conectado a dos redes puede comunicarse con ambas.
 Por eso borramos primero el contenedor modulo3 con docker rm
 
+# Tarea Módulo 6: Construyendo mis propias imágenes Docker
 
+Práctica del Módulo 6 del 2º GSI sobre creación de imágenes Docker, primero a partir de un contenedor en ejecución (`docker commit`) y después a partir de un `Dockerfile` (`docker build`). Las imágenes se publican en Docker Hub.
+
+**Autor:** Juanma Martín Delgado
+**Usuario de Docker Hub:** [juanmamd12](https://hub.docker.com/u/juanmamd12)
+
+---
+
+## Índice
+
+1. [Requisitos](#requisitos)
+2. [Tarea 6.2: Imagen a partir de un contenedor (`a62`)](#tarea-62-imagen-a-partir-de-un-contenedor-a62)
+3. [Tarea 6.3: Imagen a partir de un Dockerfile (`a63`)](#tarea-63-imagen-a-partir-de-un-dockerfile-a63)
+4. [Repositorios en Docker Hub](#repositorios-en-docker-hub)
+
+---
+
+## Requisitos
+
+- Docker Desktop instalado en Windows
+- Cuenta en [Docker Hub](https://hub.docker.com)
+- Terminal (CMD o PowerShell)
+
+Antes de subir imágenes hay que autenticarse:
+
+```bash
+docker login
+```
+
+---
+
+## Tarea 6.2: Imagen a partir de un contenedor (`a62`)
+
+Se crea un contenedor a partir de `ubuntu:20.04`, se instalan herramientas y se guarda el resultado como una imagen nueva.
+
+### 1. Arrancar el contenedor
+
+```bash
+docker run -it --name contenedor_tarea ubuntu:20.04 bash
+```
+
+Para volver a entrar en un contenedor detenido:
+
+```bash
+docker start -ai contenedor_tarea
+```
+
+### 2. Instalar herramientas dentro del contenedor
+
+```bash
+apt update
+apt install nano -y
+apt install vim -y
+apt install inetutils-tools -y
+apt install dnsutils -y
+```
+
+### 3. Crear un usuario
+
+```bash
+adduser usuario
+```
+
+### 4. Guardar el contenedor como imagen
+
+Desde la máquina anfitriona (Windows):
+
+```bash
+docker commit contenedor_tarea juanmamd12/a62
+```
+
+### 5. Comprobar y subir la imagen
+
+```bash
+docker images
+docker push juanmamd12/a62
+```
+
+<!-- TODO: completar el push y añadir la captura de Docker Hub -->
+
+---
+
+## Tarea 6.3: Imagen a partir de un Dockerfile (`a63`)
+
+Se construye una imagen a partir de `php:7.4-apache` con un `Dockerfile` propio.
+
+### 1. Crear la carpeta de trabajo y descargar la imagen base
+
+```bash
+mkdir tarea63
+cd tarea63
+docker pull php:7.4-apache
+```
+
+### 2. Dockerfile
+
+Contenido del archivo `Dockerfile`, guardado sin extensión:
+
+```dockerfile
+FROM php:7.4-apache
+
+RUN apt-get update && apt-get install -y nano
+RUN apt-get install -y git
+
+RUN echo "HOLA SOY Juanma Martin" > /var/www/html/index.html
+RUN echo "<?php phpinfo(); ?>" > /var/www/html/info.php
+```
+
+### 3. Construir la imagen
+
+```bash
+docker build -t juanmamd12/a63 .
+```
+
+<!-- TODO: repetir el build y capturar la salida completa hasta el final -->
+
+### 4. Comprobar y subir la imagen
+
+```bash
+docker images
+docker push juanmamd12/a63
+```
+
+### 5. Probar la imagen (opcional)
+
+```bash
+docker run -d -p 8080:80 juanmamd12/a63
+```
+
+Después abre en el navegador `http://localhost:8080` (debe mostrar el texto de `index.html`) y `http://localhost:8080/info.php` (debe mostrar la página de `phpinfo`).
+
+---
+
+## Repositorios en Docker Hub
+
+| Tarea | Imagen | Repositorio |
+|-------|--------|-------------|
+| 6.2 | `juanmamd12/a62` | https://hub.docker.com/r/juanmamd12/a62 |
+| 6.3 | `juanmamd12/a63` | https://hub.docker.com/r/juanmamd12/a63 |
