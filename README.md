@@ -266,7 +266,7 @@ docker images
 docker push juanmamd12/a63
 ```
 
-### 5. Probar la imagen (opcional)
+### 5. Probar la imagen
 
 ```bash
 docker run -d -p 8080:80 juanmamd12/a63
@@ -274,11 +274,3 @@ docker run -d -p 8080:80 juanmamd12/a63
 
 Después abre en el navegador `http://localhost:8080` (debe mostrar el texto de `index.html`) y `http://localhost:8080/info.php` (debe mostrar la página de `phpinfo`).
 
----
-
-## Repositorios en Docker Hub
-
-| Tarea | Imagen | Repositorio |
-|-------|--------|-------------|
-| 6.2 | `juanmamd12/a62` | https://hub.docker.com/r/juanmamd12/a62 |
-| 6.3 | `juanmamd12/a63` | https://hub.docker.com/r/juanmamd12/a63 |
